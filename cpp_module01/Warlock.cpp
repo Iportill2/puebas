@@ -1,60 +1,71 @@
 #include "Warlock.hpp"
-
-Warlock::Warlock(std::string const &name, std::string const &title)
+Warlock::Warlock(const Warlock & o)
 {
-    this->name = name;
-    this->title = title;
-    std::cout << this->name << ": This looks like another boring day.\n";
+    *this = o;
 }
-
+Warlock & Warlock::operator=(const Warlock & o)
+{
+    this->Name = o.Name;
+    this->Title = o.Title;
+    return(*this);
+}
+Warlock::Warlock(const std::string & name, const std::string & title) : Name(name), Title(title)
+{
+    std::cout << Name << ": This looks like another boring day." << std::endl;
+}
+const std::string & Warlock::getName() const
+{
+        return(Name);
+}
+    const std::string & Warlock::getTitle() const
+{
+    
+    return(Title);
+}
+void Warlock::setTitle(const std::string & l)
+{
+    Title = l;
+}
+void Warlock::introduce() const
+{
+    std::cout << Name << ": I am " << Name <<", "<< Title << "!" << std::endl;
+}
 Warlock::~Warlock()
 {
-    std::cout << this->name << ": My job here is done!\n";
-    for (size_t i = 0; i < arr_aspell.size(); ++i) 
-    {
-        delete arr_aspell[i];
-    }
-    arr_spellname.clear();
-    arr_aspell.clear();
+    std::cout << Name << ": My job here is done!" << std::endl;
 }
-
-std::string const &Warlock::getName() const { return (this->name);}
-std::string const &Warlock::getTitle() const { return (this->title);}
-
-void Warlock::setTitle(std::string const &title) { this->title = title;}
-
-void Warlock::introduce() const { std::cout << this->name << ": I am " << this->name << ", " << this->title << "!\n";}
-void Warlock::learnSpell(ASpell *aspell_ptr) 
-{
-    if (aspell_ptr) 
+	void Warlock::learnSpell(ASpell *aspell_ptr) 
     {
-        arr_spellname.push_back(aspell_ptr->getName());
-        arr_aspell.push_back(aspell_ptr);
-    }
-}
-
-void Warlock::forgetSpell(std::string name) 
-{
-    for (size_t i = 0; i < arr_spellname.size(); ++i) 
-    {
-        if (arr_spellname[i] == name) 
+        if(aspell_ptr)
         {
-            arr_spellname.erase(arr_spellname.begin() + i);
-            arr_aspell.erase(arr_aspell.begin() + i);
-            break;
+            arr_spellname.push_back(aspell_ptr->getName());
+            arr_aspell.push_back(aspell_ptr);
         }
     }
-}
-
-void Warlock::launchSpell(std::string name, ATarget const &atarget_ref) 
-{
-    for (size_t i = 0; i < arr_spellname.size(); ++i) 
+	void Warlock::forgetSpell(std::string spellname)
     {
-        if (arr_spellname[i] == name) 
+        size_t i =0;
+        while(i < arr_spellname.size())
         {
-            arr_aspell[i]->launch(atarget_ref);
-            break;
+            if(arr_spellname[i] == spellname)
+            {
+                arr_spellname.erase(arr_spellname.begin()+i);
+                break;
+            }
+            i++;
         }
     }
-}
+	void Warlock::launchSpell(std::string spellname, const ATarget & atarget_ref) 
+    {
+        size_t i =0;
+        while(i < arr_spellname.size())
+        {
+            if(arr_spellname[i] == spellname)
+            {
+                arr_aspell[i]->launch(atarget_ref);
+                break;
+            }
+            i++;
+        }
+    } 
 

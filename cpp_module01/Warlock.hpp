@@ -1,37 +1,34 @@
 #pragma once
-
 #include <iostream>
 #include "ASpell.hpp"
-#include "ATarget.hpp"
-#include <map>
 #include <vector>
-
+class ASpell;
 class Warlock
 {
-    private:
-        std::string name;
-        std::string title;
-
-        Warlock();
-        Warlock(Warlock const &other);
-        Warlock &operator=(Warlock const &other);
-
-        //std::map<std::string, ASpell *> arr;
-        //std::vector<std::pair<std::string, ASpell*>> arr;
-        std::vector <std::string> arr_spellname;
-        std::vector <ASpell *> arr_aspell;
+	private:
+    std::string Name;
+    std::string Title;
+    Warlock(){};
+    Warlock(const Warlock & o);
+    Warlock &operator=(const Warlock & o);
+	
+	std::vector<std::string>arr_spellname;
+	std::vector<ASpell *>arr_aspell;
     public:
-        Warlock(std::string const &name, std::string const &title);
-        ~Warlock();
+    Warlock(const std::string & name, const std::string & title);
+	~Warlock();
 
-        std::string const &getName() const;
-        std::string const &getTitle() const;
+    const std::string & getName() const ;
+	const std::string & getTitle() const ;
+	
+	void setTitle(const std::string & l) ;
+	
+	void introduce() const;
+	
+	void learnSpell(ASpell *aspell_ptr) ;
+	void forgetSpell(std::string spellname);
+	void launchSpell(std::string spellname, const ATarget & atarget_ref); 
 
-        void setTitle(std::string const &title);
 
-        void introduce() const;
 
-        void learnSpell(ASpell *aspell_ptr);
-        void forgetSpell(std::string name);
-        void launchSpell(std::string name, ATarget const &atarget_ref);
 };
